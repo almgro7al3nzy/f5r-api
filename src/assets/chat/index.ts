@@ -1,0 +1,10 @@
+export { default as bellRing } from './bell_ring.svg';
+export { default as bellNoRing } from './bell_noring.svg';
+export { default as people } from './people.svg';
+export { default as prev } from './prev.svg';
+export { default as send } from './send.svg';
+export { default as setting } from './setting.svg';
+export { default as profile } from './profile.svg';
+export { default as out } from './out.svg';
+export { default as account } from './account.svg';
+export { default as arrive } from './arrive.svg';

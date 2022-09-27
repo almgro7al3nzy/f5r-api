@@ -1,0 +1,1 @@
+export { default as chickLogo } from './chick.png';

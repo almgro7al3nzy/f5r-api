@@ -1,0 +1,12 @@
+export { default as Post } from './post';
+export { default as Footer } from './footer';
+export { default as Header } from './header';
+export { default as Mypage } from './mypage';
+export { default as UserInfo } from './userInfo';
+export { default as Auth } from './auth';
+export { default as Information } from './information';
+export { default as Callback } from './callback';
+export { default as Main } from './main';
+export { default as Home } from './home';
+export { Noti } from './notification';
+export { TagRegister } from './notification/tagRegister';
