@@ -1,10 +1,19 @@
 {
-  "name": "chat-app",
+  "name": "socket.io-chat",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alceu Ramos",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1"
   }
 }
