@@ -1,4 +1,4 @@
-// STUN/TURN servers for voice channel 
+// خوادم STUN / TURN للقناة الصوتية
 export const iceServerConfig = (twilioObj) => {
     return {
         config : {
@@ -31,25 +31,6 @@ export const iceServerConfig = (twilioObj) => {
             url: 'turn:turn.anyfirewall.com:443?transport=tcp',
             credential: 'webrtc',
             username: 'webrtc'
-        },  
-        //remove the below three objects if you are running locally without twilio 
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=udp',
-            username : twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=udp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            username: twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:3478?transport=tcp',
-            credential: twilioObj.cred
-        },
-        {
-            url: 'turn:global.turn.twilio.com:443?transport=tcp',
-            username:twilioObj.username,
-            urls: 'turn:global.turn.twilio.com:443?transport=tcp',
-            credential: twilioObj.cred
         }
         ]
         } 
