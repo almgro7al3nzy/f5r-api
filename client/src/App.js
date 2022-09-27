@@ -30,4 +30,4 @@ const App = () => {
 
 export default App; 
 
-/* User enters data in "/", that data is passed to "/chat" using query-strings" */ 
+/* يقوم المستخدم بإدخال البيانات في "/" ، ويتم تمرير تلك البيانات إلى "/ chat" باستخدام سلاسل الاستعلام " */ 
