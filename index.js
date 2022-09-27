@@ -1,74 +1,39 @@
+require('dotenv').config()
+const express =  require('express');
+require('./Models/Dbcontext.js');
+const RegisterLoginRoute = require('./Controllers/LogInAndRegister/LoginAndRegisterRoutes')
+const PostRoute = require('./Controllers/PostController/PostRoutes')
+const UserRoutes = require('./Controllers/UserController/userRoutes')
+const PostReplyRoutes = require('./Controllers/PostReplyController/PostReplyRoutes')
+const GroupRoutes = require('./Controllers/GroupControllers/GroupRoutes')
+const SocketHub = require('./Hubs/Sockets')
+const app =  express();
+const cors = require('cors')
+const port =  8080
+const httpServer = require("http").createServer(app)
+const SocketAuth = require('./Hubs/Middleware/SocketAuthMiddleware')
+const io = require('socket.io')(httpServer,{
+    cors: {
+      origin: "http://localhost:3000",
+    },
+  })
 
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const socketio = require('socket.io');
-const formatMessage = require('./helpers/formatDate')
-const {
-  getActiveUser,
-  exitRoom,
-  newUser,
-  getIndividualRoomUsers
-} = require('./helpers/userHelper');
+app.use(cors())
+app.use(express.static('uploads'))
+app.use(express.json())
+app.use(RegisterLoginRoute)
+app.use("/post",PostRoute)
+app.use('/user',UserRoutes)
+app.use('/reply',PostReplyRoutes)
+app.use('/group',GroupRoutes)
 
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
+io.use(SocketAuth)
 
-//تعيين الدليل العام
-app.use(express.static(path.join(__dirname, 'public')));
+io.on("connection" , (socket) =>{
+    console.log("connected" ,socket.id)
+    SocketHub(socket,io)
+})
 
-// سيتم تشغيل هذه الكتلة عند اتصال العميل
-io.on('connection', socket => {
-  socket.on('joinRoom', ({ username, room }) => {
-    const user = newUser(socket.id, username, room);
-
-    socket.join(user.room);
-
-    // عام أهلا وسهلا
-    socket.emit('message', formatMessage("WebCage", 'Messages are limited to this room! '));
-
-    // بث في كل مرة يتصل فيها المستخدمون
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage("WebCage", `${user.username} has joined the room`)
-      );
-
-    //المستخدمون النشطون الحاليون واسم الغرفة
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getIndividualRoomUsers(user.room)
-    });
-  });
-
-  //استمع إلى رسالة العميل
-  socket.on('chatMessage', msg => {
-    const user = getActiveUser(socket.id);
-
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
-  });
-
-  //يعمل عند قطع اتصال العميل
-  socket.on('disconnect', () => {
-    const user = exitRoom(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage("WebCage", `${user.username} has left the room`)
-      );
-
-      // المستخدمون النشطون الحاليون واسم الغرفة
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getIndividualRoomUsers(user.room)
-      });
-    }
-  });
-});
-
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+httpServer.listen(port , () =>{
+  console.log("Hosted on "+port)
+})
