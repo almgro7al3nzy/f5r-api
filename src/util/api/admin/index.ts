@@ -1,1 +1,0 @@
-export { getAdminQuestionList, getAdminReportUserList, getAdminReportPostList } from "./list";
