@@ -44,7 +44,7 @@ const Chat = ({ location })=> {
     const history = useHistory();
     const alert = useAlert();
     
-    // Server websocket endpoint 
+    // نقطة نهاية Websocket الخادم 
     const ENDPOINT = process.env.REACT_APP_API_ENDPOINT;   
     
     useEffect(() => {
