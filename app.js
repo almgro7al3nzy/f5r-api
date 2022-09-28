@@ -12,39 +12,67 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-const general = io.of("/general");
-var people = {};
+let numUsers = 0;
 
-var basketballTotalUser = 0;
+io.on('connection', (socket) => {
+    let addedUser = false;
 
-general.on('connection', function (socket) {
+    // when the client emits 'new message', this listens and executes
+    socket.on('new message', (data) => {
+        // we tell the client to execute 'new message'
+        socket.broadcast.emit('new message', {
+          username: socket.username,
+          message: data
+        });
+    });
+    //console.log(socket.id, "a user connected to server!");
 
-    nickname = socket.handshake.query['nickname'];
-    people[socket.id] = nickname;
+    // when the client emits 'add user', this listens and executes
+    socket.on('add user', (username) => {
+        if (addedUser) return;
 
-    socket.on('join', function(msg){
-        footballTotalUser = generalTotalUser + 1;
-        console.log(nickname + ": has joined to general channel");
-        console.log("channel user count:" + generalTotalUser);
-        socket.broadcast.emit('join', {nickname: nickname, count: generalTotalUser});
-        socket.emit('activeUser', {count: generalTotalUser});
+        // we store the username in the socket session for this client
+        socket.username = username;
+        ++numUsers;
+        addedUser = true;
+        socket.emit('login', {
+          numUsers: numUsers
+        });
+        // echo globally (all clients) that a person has connected
+        socket.broadcast.emit('user joined', {
+          username: socket.username,
+          numUsers: numUsers
+        });
     });
 
-    socket.on('disconnect', function(msg){
-        generalTotalUser = generalTotalUser - 1;
-        console.log( people[socket.id] + ": has left to general channel");
-        console.log("channel user count:" + generalTotalUser);
-        socket.broadcast.emit('left', {nickname:  people[socket.id], count: generalTotalUser});
-    });
+    // when the client emits 'typing', we broadcast it to others
+      socket.on('typing', () => {
+        socket.broadcast.emit('typing', {
+          username: socket.username
+        });
+      });
 
-    socket.on('new_message', function(msg){
-        console.log(msg.nickname + " has send message: " + msg.message);
-        socket.broadcast.emit('new_message', {nickname: msg.nickname, message: msg.message});
+      // when the client emits 'stop typing', we broadcast it to others
+      socket.on('stop typing', () => {
+        socket.broadcast.emit('stop typing', {
+          username: socket.username
+        });
+      });
+
+    socket.on('disconnect', function () {
+        if (addedUser){
+            --numUsers;
+
+            // echo globally that this client has left
+            socket.broadcast.emit('user left', {
+                username: socket.username,
+                numUsers: numUsers
+            });
+        }
     });
 });
 
-
-const PORT = process.env.PORT || 5000; 
-server.listen(PORT, ()=>{
-    console.log(`Server started on port ${PORT}`); 
+server.listen(app.get('port'), function(){
+    console.log("Server is now running...");
+    console.log("Port is on", app.get('port'))
 });
