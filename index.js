@@ -7,6 +7,7 @@ var io = require('socket.io')(server);
 const general = io.of("/general");
 const football = io.of("/football");
 const basketball = io.of("/basketball");
+const abbas = io.of("/abbas");
 var people = {};
 
 let generalTotalUser = 0;
