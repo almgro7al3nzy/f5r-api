@@ -35,6 +35,8 @@ general.on('connection', function (socket) {
     });
 });
 
-http.listen(3000, function () {
-    console.log('listening on *:3000');
+
+const PORT = process.env.PORT || 5000; 
+server.listen(PORT, ()=>{
+    console.log(`Server started on port ${PORT}`); 
 });
