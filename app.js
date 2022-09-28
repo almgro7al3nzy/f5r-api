@@ -1,12 +1,20 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const express = require('express');
+
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+app.set('port', (process.env.PORT || 3000));
+
+app.use(express.static(__dirname + '/public'));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 const general = io.of("/general");
 var people = {};
 
-var generalTotalUser = 0;
-var footballTotalUser = 0;
 var basketballTotalUser = 0;
 
 general.on('connection', function (socket) {
