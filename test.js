@@ -9,11 +9,11 @@ const child = spawn('node', ['index.js'], {env});
 test('responds to requests', (t) => {
   t.plan(4);
 
-  // Wait until the server is ready
+  //انتظر حتى يصبح الخادم جاهزًا
   child.stdout.on('data', _ => {
-    // Make a request to our app
+    // قم بتقديم طلب إلى تطبيقنا
     request('http://127.0.0.1:5000', (error, response, body) => {
-      // stop the server
+      // أوقف الخادم
       child.kill();
 
       // No error
