@@ -12,7 +12,7 @@ import People from "../rightSideComponents/People/People";
 import Voice from "../rightSideComponents/Voice/Voice"
 
 import Peer from "peerjs"; 
-import { cred } from "../../config/callcred"; 
+//import { cred } from "../../config/callcred"; 
 
 const getAudio = () =>{
      return navigator.mediaDevices.getUserMedia({ audio: true, video: false })
