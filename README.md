@@ -1,32 +1,40 @@
-# Node Todo App
+# hellochess
 
-A Node app built with MongoDB and Angular. For demonstration purposes and a tutorial.
+Not under active development anymore!
 
-Node provides the RESTful API. Angular provides the frontend and accesses the API. MongoDB stores like a hoarder.
+Setup:
+Create a config directory inside of the project root. Inside that folder create a config.js file.
 
-## Requirements
+Place similar content as below inside config.js:
 
-- [Node and npm](http://nodejs.org)
+    module.exports = {
+        secret: 'placeRandomStringHere',
+        facebookAuth: {
+            clientID: '',
+            clientSecret: '',
+            callbackURL: '',
+            profileFields: ['id', 'email', 'name', 'picture', 'friends'],
+            fields: "id, email, name, picture"
+        },
+        googleAuth: {
+            GoogleClientID: '',
+            GoogleClientSecret: ''
+        }
+    }
 
-## Installation
+npm install
 
-1. Clone the repository: `git clone git@github.com:scotch-io/node-todo`
-2. Install the application: `npm install`
-3. Start the server: `node server.js`
-4. View in browser at `http://localhost:8080`
 
-## Tutorial Series
+Make sure you have MongoDB installed and run
+mongod
 
-This repo corresponds to the Node Todo Tutorial Series on [scotch.io](http://scotch.io)
+For development purposes I run the webpack dev server on localhost:8080
+to run the webpack dev server:
 
-Each branch represents a certain tutorial.
-- tut1-starter: [Creating a Single Page Todo App with Node and Angular](http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular)
-- tut2-services: Coming Soon
-- tut3-auth: Coming Soon
-- tut4-sockets: Coming Soon
-- tut5-redis: Coming Soon
-- tut6-organization: Coming Soon
+npm start
 
-Happy Todo-ing!
+The backend runs on localhost:3000 which I run as below:
 
-![Todo-aholic](http://i.imgur.com/ikyqgrn.png)
+nodemon server/server.js
+
+visit localhost:8080 and hope everything works!
