@@ -1,5 +1,0 @@
----
-droplets:
-  - name: production.nginx.1
-  - name: production.app.1
-  - name: production.mongodb.1

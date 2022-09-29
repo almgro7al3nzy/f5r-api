@@ -1,8 +1,0 @@
-- name: Update apt-cache
-  apt: update_cache=yes cache_valid_time=86400 # only update if cache older than 24 hours
-
-- name: Install emacs
-  apt: name=emacs state=present
-
-- name: Install python-pycurl for ansible
-  apt: name=python-pycurl state=present

@@ -1,24 +1,32 @@
-getting-mean-with-ansible
-=========================
+# Node Todo App
 
-Code based on these people's stuff:
+A Node app built with MongoDB and Angular. For demonstration purposes and a tutorial.
 
-https://github.com/garethr/ansible-provisioner
-https://github.com/scotch-io/node-todo/tree/tut1-starter
+Node provides the RESTful API. Angular provides the frontend and accesses the API. MongoDB stores like a hoarder.
 
-Code and Slides for Deploying a MEAN stack application to Digital Ocean using Ansible
+## Requirements
 
+- [Node and npm](http://nodejs.org)
 
-## Install dopy
-```
-sudo easy_install pip
-pip install dopy
-```
+## Installation
 
+1. Clone the repository: `git clone git@github.com:scotch-io/node-todo`
+2. Install the application: `npm install`
+3. Start the server: `node server.js`
+4. View in browser at `http://localhost:8080`
 
-You also need to set a couple of environment variables for the Digital Ocean API.
+## Tutorial Series
 
-```
-export DO_API_KEY=xxxxxxxxxxxxxxx
-export DO_CLIENT_ID=xxxxxxxxxxxxxxxxxx
-```
+This repo corresponds to the Node Todo Tutorial Series on [scotch.io](http://scotch.io)
+
+Each branch represents a certain tutorial.
+- tut1-starter: [Creating a Single Page Todo App with Node and Angular](http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular)
+- tut2-services: Coming Soon
+- tut3-auth: Coming Soon
+- tut4-sockets: Coming Soon
+- tut5-redis: Coming Soon
+- tut6-organization: Coming Soon
+
+Happy Todo-ing!
+
+![Todo-aholic](http://i.imgur.com/ikyqgrn.png)
