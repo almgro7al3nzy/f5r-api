@@ -8,7 +8,7 @@ border-radius: 0;
 padding: 3% 5%; /* */ 
 width: 80%; 
 font-size: 1.2em; /* 1.2em */
-background-color: #d8d8d8;
+background-color: #47474A;
 }
 
 input:focus, textarea:focus, select:focus{
@@ -18,7 +18,7 @@ outline: none;
 .sendButton {
 color: #fff !important;
 text-transform: uppercase;
-background: #5665D2;
+background: #7289DA;;
 padding: 20px;
 display: inline-block;
 border: none;

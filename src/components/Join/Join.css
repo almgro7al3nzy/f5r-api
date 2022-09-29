@@ -26,12 +26,9 @@ html, body {
 }
 
 .joinInnerContainer {
-    width: 40%;
-    padding: 5% 5%;
-    border: solid;
-    border-radius: 10px;
-    border-width: 2px;
-    border-color: #dedede;
+  width: 40%;
+  padding : 5% 5%; 
+  border-radius: 10px;
 }
 
 .bookIcon {
@@ -55,7 +52,7 @@ html, body {
   padding: 15px 20px;
   width: 100%;
   border-style: solid ;
-  border-color: #d8d8d8;
+  border-color: black;
 }
 
 .heading {
@@ -76,18 +73,19 @@ html, body {
     width: 100%;
 }
 
-.bgtert {
-    background-color: #ffffff;
-}
-
-.bgbutton, .bghead {
-    background-color: #5665D2;
-}
-
 .mt-20 {
   margin-top: 20px;
 }
 
+.helpbutton {
+  color: grey; 
+}
+
+.helptext {
+  color: grey;
+  text-align: left;
+  margin:0; 
+}
 
 @media (min-width: 320px) and (max-width: 480px) {
   .joinOuterContainer {

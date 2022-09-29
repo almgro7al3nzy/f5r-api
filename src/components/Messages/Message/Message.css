@@ -1,5 +1,5 @@
 .messageBox {
-background: #ffffff;
+background: white;
 border-radius: 20px;
 padding: 5px 20px;
 color: white;
@@ -51,7 +51,7 @@ justify-content: flex-end;
 }
 
 .colorWhite {
-color: black;
+color: white;
 }
 
 .colorDark {
@@ -63,5 +63,5 @@ background: #25D366;
 }
 
 .backgroundMain {
-background: #9396b3;
+background: #1a1a1d;
 }
