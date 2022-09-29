@@ -21,8 +21,7 @@
     "randomstring": "^1.2.1",
     "socket.io": "^2.4.1",
     "twilio": "^3.67.0"
-	  "private": true,
-  "dependencies": {
+    "dependencies": {
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
