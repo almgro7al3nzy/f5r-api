@@ -20,45 +20,10 @@ var footballTotalUser = 0;
 var basketballTotalUser = 0;
 let numUsers = 0;
 
-io.on('connection', (socket) => {
-
-console.log('user connected')
-
-socket.on('join', function(userNickname) {
-
-        console.log(userNickname +" : has joined the chat "  );
-
-        socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
-    });
-
-
-socket.on('messagedetection', (senderNickname,messageContent) => {
-       
-       //تسجيل الرسالة في وحدة التحكم 
-
-       console.log(senderNickname+" :" +messageContent)
-        //إنشاء كائن الرسالة
-       let  message = {"message":messageContent, "senderNickname":senderNickname}
-          // أرسل الرسالة إلى جانب العميل 
-       io.emit('message', message );
-     
-      });
-      
-  
- socket.on('disconnect', function() {
-    console.log( ' user has left ')
-    socket.broadcast.emit("userdisconnect"," user has left ") 
-
-});
-
-
-
-});
-
 
 general.on('connection', function (socket) {
 
-    username = socket.handshake.query['username'];
+    username = socket.handshake.query['nickname'];
     people[socket.id] = username;
 
     socket.on('join', function(msg){
