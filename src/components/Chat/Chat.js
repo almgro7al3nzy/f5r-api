@@ -25,7 +25,7 @@ function stopBothVideoAndAudio(stream) {
         }
     });
 }
-let cred = true; 
+let cred = null; 
 
 // STUN/TURN servers for voice channel 
 const setCredObj = (twilioObj) => {
