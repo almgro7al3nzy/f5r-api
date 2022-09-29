@@ -106,13 +106,13 @@ const Chat = ({ location })=> {
         socket = io(ENDPOINT, { transport : ['websocket'] });
         setName(name.trim().toLowerCase()); 
         setRoom(room.trim().toLowerCase());
-        // setName(name);
-        // setRoom(room); 
+         setName(name);
+         setRoom(room); 
 
         socket.emit('join',{name,room},(result)=>{
             console.log(`You are ${name} with id ${socket.id}`); 
             setCredObj(result); 
-            //console.log(cred); 
+            console.log(cred); 
         });
         
         return () => { //component unmounting 
@@ -158,7 +158,7 @@ const Chat = ({ location })=> {
             getAudio()
             .then((mystream)=>{
                 myStream = mystream; 
-                //peer = new Peer(socket.id);
+                peer = new Peer(socket.id);
 
                 peer = new Peer(socket.id, cred);  
                 console.log("Peer:", peer);
@@ -172,7 +172,7 @@ const Chat = ({ location })=> {
                         receivedCalls.push(stream); 
                     });
                 });
-                //console.log(usersInVoice); 
+                console.log(usersInVoice); 
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
@@ -183,7 +183,7 @@ const Chat = ({ location })=> {
                         //call everyone already present 
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        //console.log(mediaConnection); 
+                        console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
