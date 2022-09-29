@@ -22,20 +22,16 @@ html, body {
 
 
 .chatHeading { 
-  color: #000000;
-}
-
-.belowHeading {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  color: #7289DA;
 }
 
 .joinInnerContainer {
-  position: relative;
-  width: 40%;
-  padding : 5% 5%; 
-  border-radius: 10px;
+    width: 40%;
+    padding: 5% 5%;
+    border: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #dedede;
 }
 
 .bookIcon {
@@ -47,10 +43,10 @@ html, body {
 
 @keyframes shakeit{
   0% {
-    transform: translate(-15px,20px);    
+    transform: translate(0px,-140px);    
   }
   100% {
-    transform: translate(-15px, -20px);
+    transform: translate(0px, -170px);
   }
 }
 
@@ -59,14 +55,11 @@ html, body {
   padding: 15px 20px;
   width: 100%;
   border-style: solid ;
-  border-color: black;
-  font-weight: bold;
-  letter-spacing: 2px;
-  font-size: 1.5rem;
+  border-color: #d8d8d8;
 }
 
 .heading {
-  color: rgb(255, 255, 255);
+  color: white;
   font-size: 2.5em;
   padding-bottom: 10px;
   border-bottom: 2px solid white;
@@ -83,20 +76,18 @@ html, body {
     width: 100%;
 }
 
+.bgtert {
+    background-color: #ffffff;
+}
+
+.bgbutton, .bghead {
+    background-color: #5665D2;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
 
-.helpbutton {
-  color: #daa972; 
-  font-size: 2rem;
-}
-
-.helptext {
-  color: grey;
-  text-align: left;
-  margin:0; 
-}
 
 @media (min-width: 320px) and (max-width: 480px) {
   .joinOuterContainer {
@@ -110,8 +101,4 @@ html, body {
 
 button:focus {
   outline: 0;
-}
-
-.bg-quat {
-  background-color: 6c6c6e;
 }
