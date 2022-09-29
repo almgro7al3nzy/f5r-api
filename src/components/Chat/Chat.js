@@ -1,10 +1,13 @@
 import React, { useState,useEffect } from "react";
+import { useHistory } from "react-router-dom"; 
 import queryString from "query-string";
 import io from 'socket.io-client';
 import "./Chat.css";
+import { iceServerConfig } from "../../config/iceServers";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input"; 
 import Messages from "../Messages/Messages";
+import { useAlert } from "react-alert";
 
 // Right side components
 import InfoBarRight from "../rightSideComponents/InfobarRight/InfoBarRight"
@@ -12,7 +15,7 @@ import People from "../rightSideComponents/People/People";
 import Voice from "../rightSideComponents/Voice/Voice"
 
 import Peer from "peerjs"; 
-//import { cred } from "../../config/callcred"; 
+const axios = require("axios");
 
 const getAudio = () =>{
      return navigator.mediaDevices.getUserMedia({ audio: true, video: false })
@@ -25,47 +28,8 @@ function stopBothVideoAndAudio(stream) {
         }
     });
 }
-let cred = null; 
 
-// STUN/TURN servers for voice channel 
-const setCredObj = (twilioObj) => {
-    cred = {
-        config : {
-        'iceServers' : [
-        {
-            url: 'stun:global.stun.twilio.com:3478?transport=udp',
-            urls: 'stun:global.stun.twilio.com:3478?transport=udp'
-        },
-        {
-            url: 'turn:numb.viagenie.ca',
-            credential: 'muazkh',
-            username: 'webrtc@live.com'
-        },
-        {
-            url: 'turn:192.158.29.39:3478?transport=udp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        },
-        {
-            url: 'turn:192.158.29.39:3478?transport=tcp',
-            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
-            username: '28224511:1379330808'
-        },
-        {
-            url: 'turn:turn.bistri.com:80',
-            credential: 'homeo',
-            username: 'homeo'
-        },
-        {
-            url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc'
-        }
-		]} 
-    };
-}
-
-let socket = null, peer = null, peers = [], myStream = null, receivedCalls = [];  
+let cred = null, socket = null, peer = null, peers = [], myStream = null, receivedCalls = [];  
 
 const Chat = ({ location })=> { 
 
@@ -77,31 +41,44 @@ const Chat = ({ location })=> {
 
     const [ join,setJoin ] = useState(0); 
     const [ usersInVoice, setUsersInVoice ] = useState([]); 
-     
-
-    //const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_LOCAL;   // the express server 
-    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT_REAL; // my deployed server 
+    const history = useHistory();
+    const alert = useAlert();
+    
+    // Server websocket endpoint 
+    const ENDPOINT = process.env.REACT_APP_API_ENDPOINT;   
     
     useEffect(() => {
         const { name, room } = queryString.parse(location.search); 
         socket = io(ENDPOINT, { transport : ['websocket'] });
         setName(name.trim().toLowerCase()); 
         setRoom(room.trim().toLowerCase());
-         setName(name);
-         setRoom(room); 
-
-        socket.emit('join',{name,room},(result)=>{
-            console.log(`You are ${name} with id ${socket.id}`); 
-            setCredObj(result); 
-            console.log(cred); 
-        });
+         
+        const connectNow = () => {
+            socket.emit('join',{name,room},(result)=>{
+                console.log(`You are ${name} with id ${socket.id}`); 
+                cred = iceServerConfig(result); 
+                console.log("CRED SET", cred)
+            });
+        }
         
+        const checkRoomExists = async() =>{
+            let result = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/checkRoomExists/${room}`); 
+            if(result.data && result.data.exists){
+                connectNow(); 
+            } else {
+                alert.error("Such room doesn't exist or expired");
+                history.push("/");
+            }
+        }
+
+        checkRoomExists();
+
         return () => { //component unmounting 
             socket.emit('leave-voice',{name,room},() => {});
             socket.emit('disconnect');
             socket.off(); 
         }
-    },[ENDPOINT,location.search]); //[ENDPOINT,location.search]);  
+    },[ENDPOINT,location.search,history,alert]); //[ENDPOINT,location.search]);  
 
     
     useEffect(()=>{
@@ -109,7 +86,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            console.log(users); 
+            //console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
@@ -139,7 +116,7 @@ const Chat = ({ location })=> {
             getAudio()
             .then((mystream)=>{
                 myStream = mystream; 
-                peer = new Peer(socket.id);
+                //peer = new Peer(socket.id);
 
                 peer = new Peer(socket.id, cred);  
                 console.log("Peer:", peer);
@@ -153,7 +130,7 @@ const Chat = ({ location })=> {
                         receivedCalls.push(stream); 
                     });
                 });
-                console.log(usersInVoice); 
+                //console.log(usersInVoice); 
                 peer.on('open',()=>{
                     console.log("connected to peerserver");
 
@@ -164,7 +141,7 @@ const Chat = ({ location })=> {
                         //call everyone already present 
                         var mediaConnection = peer.call(u.id, mystream); 
                         console.log(`Calling ${u.id} ${u.name}`);
-                        console.log(mediaConnection); 
+                        //console.log(mediaConnection); 
     
                         const audio = document.createElement('audio');
                         mediaConnection.on('stream', (stream)=>{
