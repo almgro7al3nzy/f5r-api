@@ -5,9 +5,9 @@
     "node": "14.15.0"
   },
   "description": "",
-  "main": "index.js",
+  "main": "serv.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node serv.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
