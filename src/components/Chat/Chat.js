@@ -4,7 +4,7 @@ import queryString from "query-string";
 import io from 'socket.io-client';
 import "./Chat.css";
 import { iceServerConfig } from "../../config/iceServers";
-import InfoBar from "../InfoBar/InfoBar";
+//import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input"; 
 import Messages from "../Messages/Messages";
 import { useAlert } from "react-alert";
@@ -86,7 +86,7 @@ const Chat = ({ location })=> {
             setMessages((messages)=>[...messages,messageReceived]); 
         });
         socket.on('usersinvoice-before-join',({users})=>{
-            //console.log(users); 
+            console.log(users); 
             setUsersInVoice((usersInVoice) => users); 
         });       
         socket.on('users-online',({users})=>{
