@@ -15,20 +15,19 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 20)->unique();
-            $table->string('email', 50)->unique();
+            $table->string('name');
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status', ['active', 'inactive']);
-            $table->enum('role', ['end-user', 'admin']);
-            $table->enum('plan_type', ['free', 'paid']);
-            $table->enum('plan_status', ['inactive', 'active', 'expired']);
-            $table->string('stripe_id')->nullable();
-            $table->string('card_brand')->nullable();
-            $table->string('card_last_four',4)->nullable();
-            $table->timestamp('trial_ends_at')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->tinyInteger('type')->default(2); //1=>admin, 2=>customers
+            $table->timestamp('last_login')->nullable();
+            $table->string('device_token')->nullable();
+            $table->string('meeting_code')->nullable();
+            $table->tinyInteger('status')->default(1);
+            $table->date('dob')->nullable();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

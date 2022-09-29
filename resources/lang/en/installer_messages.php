@@ -7,7 +7,7 @@ return [
      * Shared translations.
      *
      */
-    'title' => 'Fluky Installer',
+    'title' => 'Laravel Installer',
     'next' => 'Next Step',
     'back' => 'Previous',
     'finish' => 'Install',
@@ -22,7 +22,7 @@ return [
      */
     'welcome' => [
         'templateTitle' => 'Welcome',
-        'title'   => 'Fluky Installer',
+        'title'   => 'Laravel Installer',
         'message' => 'Easy Installation and Setup Wizard.',
         'next'    => 'Check Requirements',
     ],
@@ -176,7 +176,7 @@ return [
      *
      */
     'installed' => [
-        'success_log_message' => 'Fluky Installer successfully INSTALLED on ',
+        'success_log_message' => 'Laravel Installer successfully INSTALLED on ',
     ],
 
     /*
@@ -206,7 +206,7 @@ return [
          * Shared translations.
          *
          */
-        'title' => 'Fluky Updater',
+        'title' => 'Laravel Updater',
 
         /*
          *
@@ -241,7 +241,7 @@ return [
         ],
 
         'log' => [
-            'success_message' => 'Fluky Installer successfully UPDATED on ',
+            'success_message' => 'Laravel Installer successfully UPDATED on ',
         ],
     ],
 ];

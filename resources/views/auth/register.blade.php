@@ -1,113 +1,55 @@
-@extends('layouts.app')
+<x-guest-layout>
+    <x-auth-card>
+        
 
-@section('page', $page)
-@section('title', getSetting('APPLICATION_NAME') . ' | ' . $page)
+        <!-- Validation Errors -->
+        <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card mb-0 static-content-data">
-                    <div class="card-body auth-section">
-                        <div class="row">
-                            <div class="col-12 text-center mt-2 mb-3">
-                                <i class="fa fa-user-plus change-password-icon"></i>
-                            </div>
-                        </div>
-                        <form method="POST" action="{{ route('register') }}">
-                            @csrf
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-                            <div class="form-group row">
-                                <div class="col-md-12 p-0">
-                                    <input id="username" type="text"
-                                        class="form-control @error('username') is-invalid @enderror" name="username"
-                                        placeholder="{{ __('Username') }}" value="{{ old('username') }}" required
-                                        autocomplete="username" maxlength="20" autofocus>
-                                    <span class="focus-border"></span>
-                                    @error('username')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+            <!-- Name -->
+            <div>
+                <x-label for="name" :value="__('common.name')" />
 
-                            <div class="form-group row">
-                                <div class="col-md-12 p-0">
-                                    <input id="email" placeholder="{{ __('E-Mail Address') }}" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" maxlength="50" required autocomplete="email">
-                                    <span class="focus-border"></span>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12 p-0">
-                                    <select id="gender" placeholder="{{ __('Gender') }}"
-                                        class="form-control @error('gender') is-invalid @enderror" name="gender" required>
-                                        <option value="">{{ __('Select') }}</option>
-                                        <option value="male" {{ old('gender') == 'mae' ? 'selected' : '' }}>
-                                            {{ __('Male') }}</option>
-                                        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>
-                                            {{ __('Female') }}
-                                        </option>
-                                    </select>
-                                    <span class="focus-border"></span>
-                                    @error('gender')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12 p-0">
-                                    <input id="password" placeholder="{{ __('Password') }}" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        maxlength="50" required autocomplete="new-password">
-                                    <span class="focus-border"></span>
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-md-12 p-0">
-                                    <input id="password-confirm" placeholder="{{ __('Confirm Password') }}"
-                                        type="password" class="form-control" name="password_confirmation" maxlength="50"
-                                        required autocomplete="new-password">
-                                    <span class="focus-border"></span>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label>
-                                    {{ __('By clicking Continue & Start you certify that you are over
-                                    :age years old and accept our Terms & Conditions and our Privacy
-                                    Policy', ['age' => getSetting('MINIMUM_AGE')]) }}
-                                </label>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-12 p-0">
-                                    <button type="submit" class="btn btn-theme w-100">
-                                        {{ __('Register') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
             </div>
-        </div>
-    </div>
-@endsection
+
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-label for="email" :value="__('common.email')" />
+
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+            </div>
+
+            <!-- Password -->
+            <div class="mt-4">
+                <x-label for="password" :value="__('common.password')" />
+
+                <x-input id="password" class="block mt-1 w-full"
+                                type="password"
+                                name="password"
+                                required autocomplete="new-password" />
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mt-4">
+                <x-label for="password_confirmation" :value="__('common.confirm_password')" />
+
+                <x-input id="password_confirmation" class="block mt-1 w-full"
+                                type="password"
+                                name="password_confirmation" required />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    {{ __('common.already_registered') }}
+                </a>
+
+                <x-button class="ml-4">
+                    {{ __('common.register') }}
+                </x-button>
+            </div>
+        </form>
+    </x-auth-card>
+</x-guest-layout>

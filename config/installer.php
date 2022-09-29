@@ -67,7 +67,7 @@ return [
     'installed' => [
         'redirectOptions' => [
             'route' => [
-                'name' => 'home',
+                'name' => 'room',
                 'data' => [],
             ],
             'abort' => [

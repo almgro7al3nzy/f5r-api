@@ -1,7 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\MeetingController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\LanguageController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,90 +24,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [RoomController::class, 'index'])->name('room');
+Route::post('/join_meeting', [RoomController::class, 'join_meeting'])->name('joinMeeting');
+Route::post('/host_meeting', [RoomController::class, 'create_join_meeting'])->name('hostMeeting');
+Route::get('/terms-conditions', [HomeController::class, 'terms'])->name('termsCondtions');
+Route::get('/privacy-policy', [HomeController::class, 'privacy'])->name('privacyPolicy');
+Route::get('/about-us', [HomeController::class, 'about'])->name('aboutUs');
+Route::get('switch-language/{id}', [LanguageController::class, 'switchLang'])->name('languageSwitch');
 
-//home route
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkPlan');
-Route::post('report-user', [App\Http\Controllers\HomeController::class, 'reportUser']);
-Route::get('check-user', [App\Http\Controllers\HomeController::class, 'checkUser']);
-Route::get('get-details', [App\Http\Controllers\HomeController::class, 'getDetails']);
+Route::get('my-meetings', [UserController::class, 'index'])->name('my_meetings')->middleware('auth');
+Route::get('meeting-history', [UserController::class, 'meeting_history'])->name('meeting_history')->middleware('auth');
+Route::get('change-password', [UserController::class, 'change_password'])->name('change_password')->middleware('auth');
 
-//check if auth mode is enabled
-Route::middleware('checkAuthMode')->group(function () {
-    Route::get('pricing', [App\Http\Controllers\PaymentController::class, 'index'])->name('pricing');
-    Route::get('payment', [App\Http\Controllers\PaymentController::class, 'payment'])->name('payment');
-    Route::post('handlePayment', [App\Http\Controllers\PaymentController::class, 'handlePayment'])->name('handlePayment');
-    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+Route::post('update-password', [ProfileController::class, 'update_password'])->name('updatePassword')->middleware(['auth', 'environment']);;
+Route::namespace("Admin")->prefix('admin')->group(function () {
+    Route::group(['middleware' => ['auth', 'admin']], function () {
+        
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('customers', [CustomerController::class, 'index'])->name('customers');
+        Route::get('meetings', [MeetingController::class, 'index'])->name('meetings');
+        Route::get('meeting-history', [MeetingController::class, 'meeting_history'])->name('meetingHistory');
+        Route::post('meetings', [MeetingController::class, 'create'])->name('addMeeting');
+        Route::get('meeting/view/{id}', [MeetingController::class, 'view']);
+        Route::get('notifications', [NotificationController::class, 'index'])->name('notifications');
+        Route::get('email-settings', [SettingController::class, 'email'])->name('email_settings');
+        
+        Route::get('languages', [LanguageController::class, 'index'])->name('languages');
+        
+        Route::get('languages-view/{id}', [LanguageController::class, 'view']);
+        Route::get('pages', [PageController::class, 'index'])->name('pages');
+        Route::get('page-edit/{id}', [PageController::class, 'edit'])->name('update_page');
+        Route::get('change-password', [ProfileController::class, 'index'])->name('profile')->middleware(['auth']);
+
+        Route::group(['middleware' => ['environment']], function () {
+            Route::post('notifications', [NotificationController::class, 'create'])->name('addNotification');
+            Route::post('save-settings', [SettingController::class, 'saveSettings'])->name('email_settings');
+            Route::post('languages', [LanguageController::class, 'create'])->name('addLanguage');
+            Route::delete('delete-langauge/{id}', [LanguageController::class, 'delete'])->name('deleteLangauge');
+            Route::post('languages/bulk-action', [LanguageController::class, 'bulkActions'])->name('bulkLanguages');
+
+            Route::delete('delete-notification/{id}', [NotificationController::class, 'delete'])->name('deleteNotification');
+            Route::post('notifications/bulk-action', [NotificationController::class, 'bulkActions'])->name('bulkNotifications');
+
+            Route::delete('delete-meeting/{id}', [MeetingController::class, 'delete'])->name('deleteMeeting');
+            Route::post('meetings/bulk-action', [MeetingController::class, 'bulkActions'])->name('bulkMeetings');
+            Route::delete('meeting-history/delete/{id}', [MeetingController::class, 'deleteHistory'])->name('deleteMeetingHistory');
+            Route::post('meeting-history/bulk-action', [MeetingController::class, 'bulkActionsHistory'])->name('bulkMeetingHistory');
+
+            Route::delete('delete-user/{id}', [CustomerController::class, 'delete'])->name('deleteUser');
+            Route::post('users/bulk-action', [CustomerController::class, 'bulkActions'])->name('bulkUsers');
+            
+            Route::post('page-update', [PageController::class, 'update'])->name('updatePage');
+        });
+    });
 });
-
-//admin routes
-Route::middleware('checkAdmin')->group(function () {
-    Route::get('admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
-    Route::get('income', [App\Http\Controllers\AdminController::class, 'income'])->name('income');
-    Route::get('update', [App\Http\Controllers\AdminController::class, 'update'])->name('update');
-    Route::get('check-for-update', [App\Http\Controllers\AdminController::class, 'checkForUpdate']);
-    Route::get('download-update', [App\Http\Controllers\AdminController::class, 'downloadUpdate']);
-    Route::get('license', [App\Http\Controllers\AdminController::class, 'license'])->name('license');
-    Route::get('verify-license', [App\Http\Controllers\AdminController::class, 'verifyLicense']);
-    Route::get('uninstall-license', [App\Http\Controllers\AdminController::class, 'uninstallLicense']);
-    Route::get('signaling', [App\Http\Controllers\AdminController::class, 'signaling'])->name('signaling');
-    Route::get('check-signaling', [App\Http\Controllers\AdminController::class, 'checkSignaling']);
-
-    //user routes
-    Route::get('users', [App\Http\Controllers\UserController::class, 'index'])->name('users');
-    Route::post('update-user-status', [App\Http\Controllers\UserController::class, 'updateUserStatus']);
-
-    //reportedUsers routes
-    Route::get('reported-users', [App\Http\Controllers\ReportedUserController::class, 'index'])->name('reportedUsers');
-    Route::post('ignore-user', [App\Http\Controllers\ReportedUserController::class, 'ignoreUser']);
-    Route::post('ban-user', [App\Http\Controllers\ReportedUserController::class, 'banUser']);
-    Route::get('banned-users', [App\Http\Controllers\ReportedUserController::class, 'bannedUsers'])->name('bannedUsers');
-    Route::post('unban-user', [App\Http\Controllers\ReportedUserController::class, 'unbanUser']);
-    Route::post('bulk-ignore-users', [App\Http\Controllers\ReportedUserController::class, 'bulkIgnoreUser']);
-    Route::post('bulk-ban-users', [App\Http\Controllers\ReportedUserController::class, 'bulkBanUser']);
-    Route::post('bulk-unban-users', [App\Http\Controllers\ReportedUserController::class, 'bulkUnbanUser']);
-
-    //global config routes
-    Route::get('global-config', [App\Http\Controllers\GlobalConfigController::class, 'index'])->name('global-config');
-    Route::get('global-config/edit/{id}', [App\Http\Controllers\GlobalConfigController::class, 'edit']);
-    Route::post('update-global-config', [App\Http\Controllers\GlobalConfigController::class, 'update']);
-
-    //pages routes
-    Route::get('pages', [App\Http\Controllers\PageController::class, 'index'])->name('pages');
-    Route::get('pages/edit/{id}', [App\Http\Controllers\PageController::class, 'edit']);
-    Route::post('update-page', [App\Http\Controllers\PageController::class, 'update']);
-
-    //fatures routes
-    Route::get('features', [App\Http\Controllers\FeaturesController::class, 'index'])->name('features');
-    Route::post('update-feature-status', [App\Http\Controllers\FeaturesController::class, 'updateFeatureStatus']);
-    Route::post('update-feature-paid', [App\Http\Controllers\FeaturesController::class, 'updateFeaturePaid']);
-
-    //languages routes
-    Route::get('languages', [App\Http\Controllers\LanguagesController::class, 'index'])->name('languages');
-    Route::get('languages/add', [App\Http\Controllers\LanguagesController::class, 'create']);
-    Route::post('create-language', [App\Http\Controllers\LanguagesController::class, 'createLanguage'])->name('createLanguage');
-    Route::get('languages/edit/{id}', [App\Http\Controllers\LanguagesController::class, 'edit']);
-    Route::post('update-language', [App\Http\Controllers\LanguagesController::class, 'updateLanguage']);
-    Route::post('languages/delete', [App\Http\Controllers\LanguagesController::class, 'deleteLanguage']);
-    Route::get('languages/download-english', [App\Http\Controllers\LanguagesController::class, 'downloadEnglish']);
-    Route::get('languages/download-file/{code}', [App\Http\Controllers\LanguagesController::class, 'downloadFile']);
-});
-
-//change password
-Route::get('change-password', [App\Http\Controllers\ChangePasswordController::class, 'index'])->name('changePassword');
-Route::post('update-password', [App\Http\Controllers\ChangePasswordController::class, 'changePassword']);
-
-//extra routes
-Route::get('privacy-policy', function () {
-    return view('privacy-policy', [
-        'page' => __('Privacy Policy'),
-    ]);
-})->name('privacyPolicy');
-
-Route::get('terms-and-conditions', function () {
-    return view('terms-and-conditions', [
-        'page' => __('Terms & Conditions'),
-    ]);
-})->name('termsAndConditions');
-
-Route::get('languages/{locale}', [App\Http\Controllers\HomeController::class, 'setLocale'])->name('language');
+require __DIR__ . '/auth.php';

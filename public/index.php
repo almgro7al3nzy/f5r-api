@@ -2,7 +2,8 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-
+require_once("../scripts/apl_core_configuration.php");
+require_once("../scripts/apl_core_functions.php");
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -16,8 +17,8 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
 /*
@@ -48,8 +49,8 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
-$response = tap($kernel->handle(
+$response = $kernel->handle(
     $request = Request::capture()
-))->send();
+)->send();
 
 $kernel->terminate($request, $response);

@@ -3894,7 +3894,7 @@ input[type=text] {
 }
 
 .master {
-    background-color: #ead7f1;
+    background-color: #f1d3d3;
     background-size: cover;
     background-position: top;
     min-height: 100vh;
@@ -3920,7 +3920,7 @@ input[type=text] {
 }
 
 .header {
-    background-color: #9a39ba;
+    background-color: #cf4647;
     padding: 30px 30px 40px;
     border-radius: 3px 3px 0 0;
     text-align: center;
@@ -4058,7 +4058,7 @@ input[type=text] {
 
 .button {
     display: inline-block;
-    background-color: #9a39ba;
+    background-color: #cf4647;
     border-radius: 2px;
     padding: 7px 20px;
     color: #fff;
@@ -4078,7 +4078,7 @@ input[type=text] {
     color: #fff;
     -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 3px rgba(0, 0, 0, 0.23);
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 3px rgba(0, 0, 0, 0.23);
-    background-color: #8a33a7;
+    background-color: #c14748;
 }
 
 .button--light {
@@ -4501,7 +4501,7 @@ svg:not(:root) {
 .step__item.active .step__icon,
 .step__item.active~.step__divider,
 .step__item.active~.step__item .step__icon {
-    background-color: #ae60c7;
+    background-color: #cd5556;
     -webkit-transition: all 0.1s ease-in-out;
     transition: all 0.1s ease-in-out;
 }

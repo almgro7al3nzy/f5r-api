@@ -37,7 +37,7 @@ class WelcomeController extends Controller
     	$LICENSE_CODE = $request->code;
     	aplVerifyEnvatoPurchase($LICENSE_CODE);
     	$license_notifications_array=aplInstallLicense(url('/'), '', $LICENSE_CODE, '');
-
+        
 		if ($license_notifications_array['notification_case']=="notification_license_ok") {
     		installed(true);
     		session(['email' => $request->email]);
