@@ -14,7 +14,7 @@
 .copy-share div { 
     font-size: 2.5rem;
     display: inline-block;
-    color: #7289da;
+    color: #f1ed02;
     /* background-color: #6c6c6e; */
     padding: 0 1rem;
 }
@@ -37,7 +37,7 @@
   display: inline-block;
 }
 .roomid-text div a{
-  color: #7289da;
+  color: #d3da72;
 }
 
 .roomid-loader {

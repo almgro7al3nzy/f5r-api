@@ -96,13 +96,13 @@ const Join = ({location}) => {
           <li>Generate a room ID by clicking generate room button</li>
           <li>Click <i className="fa fa-share-alt" aria-hidden="true"></i> for sharing join link with friends.</li>
           <li>Click <i className="fa fa-clone" aria-hidden="true"></i> for copying room ID</li>
-          <li>Join the room and study together using text and voice channels. No registration required. </li>
+          <li>Join the room and VOXS together using text and voice channels. No registration required. </li>
         </ul>
          
       </p> 
       <p>
         <u>About</u> : The application aims to put text and voice channels on the same page, so 
-        that collaboration with friends while studying becomes easy. 
+        that collaboration with friends. 
       </p>
       <div style={ {display:"flex", justifyContent:"space-between", fontSize:"2rem"}}> 
         <span onClick={() => { toggle(2) }} style={{ marginRight:0, color:"#7289dA"}}> <i className="fa fa-arrow-circle-left" aria-hidden="true"></i> </span>
@@ -131,7 +131,7 @@ const Join = ({location}) => {
     <div className="joinOuterContainer bgprime">      
       <div className="joinInnerContainer bgsec">
         <img className="bookIcon" src={readingBook} alt="."></img>
-        <h1 className="chatHeading" onClick={()=>{setState(2)}}> Study Room </h1>
+        <h1 className="chatHeading" onClick={()=>{setState(2)}}> VOXS Room </h1>
         <div className="belowHeading"> 
           {getAppropriateComponent(state)}
         </div>

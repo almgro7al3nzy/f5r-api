@@ -22,7 +22,7 @@ html, body {
 
 
 .chatHeading { 
-  color: #7289DA;
+  color: #000000;
 }
 
 .belowHeading {
@@ -66,7 +66,7 @@ html, body {
 }
 
 .heading {
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 2.5em;
   padding-bottom: 10px;
   border-bottom: 2px solid white;
@@ -88,7 +88,7 @@ html, body {
 }
 
 .helpbutton {
-  color: #7289DA; 
+  color: #daa972; 
   font-size: 2rem;
 }
 
