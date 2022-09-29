@@ -2,7 +2,7 @@
   "name": "client",
   "description": "a really cool app",
   "engines": {
-    "node": "18.x"
+    "node": "18.x",
 	"version": "0.1.0",
   "private": true,
   "dependencies": {
