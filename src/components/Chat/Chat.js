@@ -4,7 +4,7 @@ import queryString from "query-string";
 import io from 'socket.io-client';
 import "./Chat.css";
 import { iceServerConfig } from "../../config/iceServers";
-//import InfoBar from "../InfoBar/InfoBar";
+import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input"; 
 import Messages from "../Messages/Messages";
 import { useAlert } from "react-alert";
