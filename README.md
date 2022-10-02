@@ -1,65 +1,78 @@
-# client
+# Lite Chat
 
-## Explanations
+![Frame](https://user-images.githubusercontent.com/99620863/177199682-a2091c25-cc69-46b7-a056-5a2528b1dec7.svg)      
+  
+Deployed at https://lite-chat-react.herokuapp.com/  
+Server repo: https://github.com/nancy-sun/litechat-server
+  
+## Description
+Lite Chat is an anonymous n-to-n chat application for text and voice chat, where users could create a temporary chatroom or join an existing chatroom. Type in the message input box to sent text messages to the room, enter the voice channel on left side bar to start talking. Works in web browsers without any additional downloads or plugins.  
+User's text messages are sent through websocket TCP connection, and voices are sent through peer to peer UDP connection. 
 
-1.  User 1 triggers the method `startAudioChat`. He then grants access to his microphone and inform (through socket.io) User 2 that he is ready to initiate a peer-to-peer communication. His media stream is stored in a variable.
-1.  If User 2 accepts the invitation, he then grants access to his microphone and iniates a peer-to-peer communication by sending (through socket.io) the Offer (including his media stream) to User 1.
-1.  Step 3 happens automatically. User 1 receives the Offer and send back the Answer to User 1 (including his media stream that was stored in step 1)
-1.  Now User 1 and User 2 have all the necessary information to communicate with each other via peer-to-peer.
-
-## Note
-
-Before starting the conversation via WebRTC, we want to check 2 things :
-
-1.  Does the user pressing the "audio chat" button has a microphone and allow the website to access it?
-2.  Does the receiver really want to engage into a audio conversation?
-
-These two points are the reason why we only store the media stream and do not already iniate the peer-to-peer communication.
-Instead we wait for the receiver to accept the audio call. It then can seem counter-intuitive, but it is actually the receiver that iniates the peer-to-peer communication, since we know that user 1 want that communication and has already given access to his microphone. When user 1 receives the offer from user 2, we make use of the store media stream.
-
-# backend
-https://github.com/mornir/node-chat-app
-
-# Resources used
-
-### WebSockets
-
-[Official Getting Started Guide](https://socket.io/get-started/chat/)
-[Andrew Mead Udemy Course](https://github.com/andrewjmead/node-course-2-chat-app)
-
-### WebRTC
-
-#### Theory
-
-[WebRTC and the mechanics of peer to peer networking](WebRTC and the mechanics of peer to peer networking)
-
-https://www.html5rocks.com/fr/tutorials/webrtc/basics
-
-#### Tutorials
-
-[Grafikart WebRTC](https://www.grafikart.fr/tutoriels/javascript/webrtc-864)
-
-[Simple-Peer](https://github.com/feross/simple-peer)
-
-#### Server list
-
-STUN: https://gist.github.com/zziuni/3741933 (free)
-TURN: http://numb.viagenie.ca/ (free)
-
-## Project setup
-
+## Installation  
+Clone source code locally:
 ```
-npm install
+$ git clone https://github.com/nancy-sun/litechat
 ```
+Install dependencies:
+```
+$ npm install
+```
+Start running:
+```
+$ npm start
+```
+  
 
-### Compiles and hot-reloads for development
+**Environment variable example for `.env` file:**  
 
-```
-npm run serve
-```
+- poke api to generate random user names:
+```REACT_APP_POKE_API = https://pokeapi.co/api/v2/pokemon```  
+- `REACT_APP_ROOM_URL` = server url of the application
+- `REACT_APP_SERVER_URL` = the server url with route `/room`  
+- `REACT_APP_STUN_URL` = STUN server URL
+- `REACT_APP_TURN_URL` = TURN server URL
+- `REACT_APP_TURN_USERNAME` = TURN server username
+- `REACT_APP_TURN_CREDENTIAL` = TURN server credential
+  
+*STUN server could be self-built with server url, or any public STUN servers.*  
+*TURN server URL, USERNAME, CREDENTIAL could be a public one or registered one.*
 
-### Compiles and minifies for production
+*Note that when running locally, the server url should be* `http://localhost:PORT`  
 
-```
-npm run build
-```
+
+## Tools/Methods  
+
+**Tech Stack**
+* React
+* Sass
+* Node.js / Express.js
+* MongoDB - Mongoose
+* Redux
+* figma (for prototype)
+
+**Resources/Tools/Methods**
+* [Socket.io & Socket.io client](https://socket.io/docs/v4/client-api/)
+* [cors](https://www.npmjs.com/package/cors)
+* [axios](https://axios-http.com/docs/api_intro)
+* [WebRTC](https://webrtc.org/getting-started/overview), [simple-peer](https://www.npmjs.com/package/simple-peer)
+* [React Bootstrap](https://react-bootstrap.github.io/)
+* [animation.css](https://animate.style/)
+* [PokeAPI](https://pokeapi.co/)
+* [STUN & TRUN server](https://www.metered.ca/tools/openrelay/#overview)
+  
+## Prototype  
+
+**Presentation Slides:** https://www.figma.com/file/mbzZFUtxbesXNTo0EptXWp/capstone-presentation
+
+**Design/prototype resources**
+* [UI](https://www.figma.com/community/file/818668544591341056)
+* [logo](https://www.figma.com/community/file/1088206555564423933)
+* [iconmonstr](https://iconmonstr.com/)
+* [figma streamline plugin](https://streamline.canny.io/)
+* [screen size mockup](https://www.figma.com/community/file/1103958429333309485)
+  
+![litechatPrototype](https://user-images.githubusercontent.com/99620863/181903772-a6928890-fb69-4f5e-a166-6f97ca27547d.svg)
+
+## Author  
+[@Nancy](https://github.com/nancy-sun)   
