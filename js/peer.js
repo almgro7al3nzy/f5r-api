@@ -325,7 +325,7 @@ MediaConnection.prototype.addStream = function(remoteStream) {
   util.log('Receiving stream', remoteStream);
 
   this.remoteStream = remoteStream;
-  this.emit('stream', remoteStream); // Should we call this `open`?
+  this.emit('stream', remoteStream); // هل يجب أن نسمي هذا "مفتوح"؟
 
 };
 
@@ -409,7 +409,7 @@ Negotiator.startConnection = function(connection, options) {
   var pc = Negotiator._getPeerConnection(connection, options);
 
   if (connection.type === 'media' && options._stream) {
-    // Add the stream.
+    // أضف الدفق.
     pc.addStream(options._stream);
   }
 
@@ -1282,8 +1282,8 @@ Socket.prototype._startXhrStream = function(n) {
     this._http._streamIndex = n || 0;
     this._http.open('post', this._httpUrl + '/id?i=' + this._http._streamIndex, true);
     this._http.onerror = function() {
-      // If we get an error, likely something went wrong.
-      // Stop streaming.
+      // إذا حصلنا على خطأ ، فمن المحتمل أن يكون هناك خطأ ما.
+      // توقف عن التدفق.
       clearTimeout(self._timeout);
       self.emit('disconnected');
     }
@@ -1544,7 +1544,7 @@ var util = {
       reliablePC.close();
     }
 
-    // FIXME: not really the best check...
+    // FIXME: ليس حقًا أفضل فحص ...
     if (audioVideo) {
       audioVideo = !!pc.addStream;
     }

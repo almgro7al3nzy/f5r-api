@@ -188,7 +188,7 @@ function myjsapp(peerClient) {
             chatPanel[toPeerId] = panel
 
             $('.panel-heading', panel).append(title).append(callButton)
-            $('.panel-body', panel).append('<span class="text-primary">You can now start chatting</span>').append(history)
+            $('.panel-body', panel).append('<span class="text-primary">يمكنك الآن بدء الدردشة</span>').append(history)
             $('.form-group', panel).append(message).append(sendBtn)
 
             $('.chat-container > div').append(panel);
@@ -252,16 +252,16 @@ function myjsapp(peerClient) {
         showVideoCall : function (options) {
             $('#videoCallPanel').modal('show')
             if(options['video'])
-                $('#videoCallPanel .title').text('Video Call')
+                $('#videoCallPanel .title').text('مكالمة فيديو')
             else
-                $('#videoCallPanel .title').text('Voice Call')
+                $('#videoCallPanel .title').text('مكالمة صوتية')
         },
         showIncomingCall : function (peerId, options) {
             $('#callConfirmationModal').modal('show')
             if(options['video'])
-                var txt = "Incoming Video call from : " + peerId
+                var txt = "مكالمة فيديو واردة من : " + peerId
             else
-                var txt = "Incoming Voice call from : " + peerId
+                var txt = "مكالمة صوتية واردة من : " + peerId
             $('#callConfirmationModal .peer-name').text(txt)
         },
         closeVideoCall : function () {
